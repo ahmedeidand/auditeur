@@ -14,7 +14,7 @@ class AuditResource extends JsonResource {
 
 		// dd(config('auditeur.user_types')) ;
 		return [ 
-			config('auditeur.user_types') ['name'] => $this ->user ? $this ->user ->{config('auditeur.user_types') ['attribute']} : '' , 
+			'Authenticatable' => $this ->user ? $this ->user ->{config('auditeur.user_types') ['attribute']} : '' , 
 			'Event'  => config('auditeur.events') [$this ->event] , 
 			'Auditable' => config('auditeur.auditable_types') [$this ->auditable_type]['name'] ?? $this ->auditable_type , 
 			'o' => $this ->_parse($this ->old_values) ,

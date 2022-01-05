@@ -3,8 +3,8 @@
 return [
 
 	'user_types' => [
-		'name' => 'Authenticatable' ,
-		// 'attribute' => 'name'
+		// 'name' => 'Authenticatable' ,
+		'attribute' => 'name'
 	] , 
 
 	'events' => [
