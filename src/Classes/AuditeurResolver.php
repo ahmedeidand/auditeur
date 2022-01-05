@@ -6,7 +6,7 @@ use ErrorException ;
 use BadFunctionCallException ;
 use OwenIt\Auditing\Models\Audit;
 
-class AuditResolver {
+class AuditeurResolver {
 
 	private $audit ;
 
@@ -23,8 +23,9 @@ class AuditResolver {
 			'Authenticatable' => $this ->audit ->user ? $this ->audit ->user ->{config('auditeur.user_types') ['attribute']} : '' , 
 			'Event'  => config('auditeur.events') [$this ->audit ->event] , 
 			'Auditable' => config('auditeur.auditable_types') [$this ->audit ->auditable_type]['name'] ?? $this ->audit ->auditable_type , 
-			'o' => $this ->audit ->_parse($this ->audit ->old_values) ,
-			'n' => $this ->audit ->_parse($this ->audit ->new_values) , 
+			'id' => $this ->audit ->auditable_id , 
+			'o' => $this ->_parse($this ->audit ->old_values) ,
+			'n' => $this ->_parse($this ->audit ->new_values) , 
 			'Client' => $this ->audit ->user_agent , 
 			'IP Address' => $this ->audit ->ip_address , 
 			'Time' => $this ->audit ->created_at ->format('Y-m-d l') ,
@@ -43,7 +44,7 @@ class AuditResolver {
 				if (is_array(config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k])) {
 
 					// dd(config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]['name']) ; 
-					$r [config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]['name']] = $this ->audit ->_attatch(config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]) ;
+					$r [config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]['name']] = $this ->_attatch(config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]) ;
 
 				} else {
 					$r [config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]] = $v;
