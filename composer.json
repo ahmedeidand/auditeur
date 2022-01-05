@@ -1,0 +1,25 @@
+{
+    "name": "auditeur/auditeur",
+    "description": "Auditeur for Laravel Audits",
+    "type": "audits",
+    "require": {
+        "owen-it/laravel-auditing": "^10.0"
+    } ,
+
+    "autoload": {
+        "psr-4": {
+            "Auditeur\\Auditeur\\": "src/" 
+        }
+    } ,
+
+    "extra": {
+
+        "laravl": {
+
+            "providers": [
+                "Auditeur\\Auditeur\\AuditeurServiceProvider"
+            ]
+        }
+    }
+
+}
