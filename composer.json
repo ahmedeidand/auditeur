@@ -3,7 +3,9 @@
     "description": "Auditeur for Laravel Audits",
     "type": "audits",
     "require": {
-        "owen-it/laravel-auditing": "^10.0"
+        "owen-it/laravel-auditing": "^10.0" ,
+        "laravel/framework": ">=8.20.0"
+
     } ,
 
     "autoload": {
