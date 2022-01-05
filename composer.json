@@ -16,7 +16,7 @@
 
     "extra": {
 
-        "laravl": {
+        "laravel": {
 
             "providers": [
                 "Auditeur\\Auditeur\\AuditeurServiceProvider"
