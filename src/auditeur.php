@@ -15,6 +15,8 @@ return [
 
 	'only_auditable_type' => false , 
 
+	'models_path' => 'App' ,
+
 	'auditable_types' => [
 
 		// App\Transaction::class 	=> [
