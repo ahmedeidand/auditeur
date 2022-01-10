@@ -9,7 +9,7 @@ class Auditeur {
 
 	public function collection(array $args)
 	{
-		return AuditResource::collection($this ->_query($args)) ;
+		return AuditResource::collection($this ->_query($args) ->paginate()) ;
 	}
 
 	public function query(array $args)
@@ -44,8 +44,7 @@ class Auditeur {
 			$q ->whereHas('user', function ($q) use ($args) {
 				$q ->where('name', 'like', '%' . $args ['name'] . '%') ; 
 			}) ;
-		})
+		}) ;
 
-		->paginate() ;
 	}
 }
