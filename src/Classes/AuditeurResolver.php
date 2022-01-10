@@ -22,7 +22,8 @@ class AuditeurResolver {
 
 			'Authenticatable' => $this ->audit ->user ? $this ->audit ->user ->{config('auditeur.user_types') ['attribute']} : '' , 
 			'Event'  => config('auditeur.events') [$this ->audit ->event] , 
-			'Auditable' => config('auditeur.auditable_types') [$this ->audit ->auditable_type]['name'] ?? $this ->audit ->auditable_type , 
+			// 'Auditable' => config('auditeur.auditable_types') [$this ->audit ->auditable_type]['name'] ?? $this ->audit ->auditable_type , 
+			'Auditable' => config('auditeur.auditable_types') [$this ->audit ->auditable_type]['name'] ?? basename($this ->audit ->auditable_type) , 
 			'id' => $this ->audit ->auditable_id , 
 			'o' => $this ->_parse($this ->audit ->old_values) ,
 			'n' => $this ->_parse($this ->audit ->new_values) , 
