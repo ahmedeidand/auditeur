@@ -14,6 +14,7 @@ class Auditeur {
 
 	public function query(array $args)
 	{
+		// $this ->info() ;
 
 		return $this ->_query($args) ;
 	}
@@ -60,7 +61,7 @@ class Auditeur {
 			$q ->whereHas('user', function ($q) use ($args) {
 				$q ->where('name', 'like', '%' . $args ['name'] . '%') ; 
 			}) ;
-		}) ;
+		}) ->orderBy('created_at', 'DESC') ;
 
 	}
 
@@ -72,5 +73,15 @@ class Auditeur {
 		}
 
 		return config('auditeur.models_path') . '\\' .$name ; 
+	}
+
+	public function info(array $args)
+	{
+		return (new Info($args)) ->merge() ;
+	}
+
+	public function resolve(Audit $audit)
+	{
+		return (new AuditeurResolver($audit)) ->resolve() ;
 	}
 }
