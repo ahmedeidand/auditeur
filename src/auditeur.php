@@ -16,7 +16,7 @@ return [
 		'updated' => '{$m} has been changed by {$u}' , 
 	] , 
 
-	'only_auditable_type' => false , 
+	'only_auditable_type' => true , 
 
 	'models_path' => 'App' ,
 
@@ -50,18 +50,24 @@ return [
 		]
 	] ,
 
+
+
 	'auditable_types' => [
 
 
 		App\OneSession::class => [
 			'only_defined_attributes' => true ,
 
+			// 'parser' => Auditeur\Auditeur\Classes\AnonymousParser::class , 
+
 			'name' => 'Session' ,
 			'attributes' => [
 
 
+				// 'shift_id' => 'Shift' ,
 				'shift_id' => [
 					'name' => 'Shift' , 
+					// 'parser' => Auditeur\Auditeur\Classes\AttributeParser::class , 
 					'relation' => [
 						'name' => 'shift' ,
 						'attribute' => 'name'
@@ -101,7 +107,7 @@ return [
 				'end_time' => 'End' ,
 				'start_time' => 'Start' ,
 				'session_date' => 'Date' ,
-
+				'admin_show' => 'Showable' ,
 				'student_attendance' => 'Student attendance' , 
 				'teacher_attendance' => 'Teacher attendance' , 
 				'deleted_at' => 'Deleted at' , 
@@ -122,7 +128,7 @@ return [
 		] ,
 
 		App\OneSchedule::class => [
-			'only_defined_attributes' => true ,
+			'only_defined_attributes' => true  ,
 			'name' => 'Schedule' , 
 			'attributes' => [
 
@@ -171,6 +177,7 @@ return [
 
 		App\Student::class 	=> [
 			'name' => 'Student' , 
+			'only_defined_attributes' => true ,
 			'attributes' => [
 				'id' => '#'  , 
 				'balance' => 'Balance' , 
@@ -190,6 +197,8 @@ return [
 
 		App\OneScheduleDaytime::class => [
 
+			'name' => 'Day' ,
+			'only_defined_attributes' => true ,
 			'attributes' => [
 				'id' => '#' , 
 				'schedule_id' => [

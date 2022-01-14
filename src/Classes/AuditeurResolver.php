@@ -5,6 +5,7 @@ namespace Auditeur\Auditeur\Classes;
 use ErrorException ; 
 use BadFunctionCallException ;
 use Error;
+use Exception;
 use OwenIt\Auditing\Models\Audit;
 use ReflectionClass;
 
@@ -42,70 +43,17 @@ class AuditeurResolver {
 
 	public function _parse(array $o)
 	{
-
-		// if ($this ->audit ->event == 'deleted') return [] ;
-
-		$r = [] ;
-
-		foreach ($o as $k => $v) {
-
-
-			// if (! isset(config('auditeur.auditable_types') [$this ->audit ->auditable_type] ['only_defined_attributes'])) continue ; 
-			if (isset(config('auditeur.auditable_types') [$this ->audit ->auditable_type] ['only_defined_attributes']) && config('auditeur.auditable_types') [$this ->audit ->auditable_type] ['only_defined_attributes'] && !in_array($k, array_keys(config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes']))) continue ; 
-			// dd(config('auditeur.auditable_types') [$this ->audit ->auditable_type]) ;
-			// dd(config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes']) ; 
-			// dd($k) ;
-			// dd(is_array(config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k])) ;
-			try {
-
-				if (is_array(config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k])) {
-
-					// dd(config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]['name']) ; 
-					$r [config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]['name']] = $this ->_attatch(config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]) ;
-
-				} else {
-					$r [config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]] = $v;
-
-				}
-
-			} catch (ErrorException $e) {
-
-				if (! $e ->getCode())  $r [config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]['name']] = $v ;
-				else $r [$k] = $v ;
-			} catch (BadFunctionCallException $e) {
-
-				$r [config('auditeur.auditable_types') [$this ->audit ->auditable_type]['attributes'][$k]['name']] = $v ; 
-			}
-		}
-
-		return $r ; 
-	}
-
-	public function _attatch(array $r)
-	{
-
-
-		if (! method_exists($this ->audit ->auditable() ->withTrashed() ->first(), $r ['relation']['name'])) throw new BadFunctionCallException() ;
-
-		try {
-
-			return $this ->audit ->auditable() ->withTrashed() ->first() ->{$r ['relation']['name']} ->{$r ['relation']['attribute']} ;
-
-		} catch (Error $e) {
-
-			return '' ; 
-		}
-		
+		return (new AnonymousParser($this ->audit)) ->parse($o) ;
 	}
 
 	public function info() 
-	{		
+	{	
 		return $this ->_parse($this ->getOriginal()) ; 
 	}
 
 	protected function getOriginal()
 	{
-		if (! $this ->audit ->auditable() ->withTrashed() ->first()) return $this ->audit ->new_values ;
+		if (! $this ->audit ->auditable() ->withTrashed() ->first()) return $this ->audit ->getModified() ;
 		return $this ->audit ->auditable() ->withTrashed() ->first() ->getOriginal() ?? [] ;
 	}
 
